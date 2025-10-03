@@ -2,81 +2,123 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Prisoner's Dilemma Simulation</title>
+<title>Prisoner's Dilemma - Animated</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
 <style>
-  body { font-family: Arial, sans-serif; background: #111; color: #eee; text-align: center; }
-  button { margin: 5px; padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer; }
-  #results { margin-top: 20px; }
-  table { margin: auto; border-collapse: collapse; }
-  td, th { border: 1px solid #555; padding: 6px 12px; }
+  body { margin:0; background:#111; color:#eee; font-family:Arial, sans-serif; text-align:center; }
+  #controls { padding: 10px; }
+  select, input, button { margin: 5px; padding: 6px 12px; border-radius: 6px; border:none; }
+  button { cursor:pointer; }
 </style>
 </head>
 <body>
-<h1>Iterated Prisoner's Dilemma</h1>
-<p>Choose strategies for Player A and B, then run the simulation.</p>
+<h1>🤝 Prisoner's Dilemma</h1>
+<div id="controls">
+  <select id="strategyA">
+    <option value="coop">Always Cooperate</option>
+    <option value="defect">Always Defect</option>
+    <option value="random">Random</option>
+    <option value="titfortat">Tit for Tat</option>
+  </select>
+  vs
+  <select id="strategyB">
+    <option value="coop">Always Cooperate</option>
+    <option value="defect">Always Defect</option>
+    <option value="random">Random</option>
+    <option value="titfortat">Tit for Tat</option>
+  </select>
+  <br>
+  <label>Rounds: <input type="number" id="rounds" value="10" min="1" max="200"></label>
+  <br>
+  <button onclick="startGame()">▶ Start Game</button>
+</div>
 
-<select id="strategyA">
-  <option value="coop">Always Cooperate</option>
-  <option value="defect">Always Defect</option>
-  <option value="random">Random</option>
-  <option value="titfortat">Tit for Tat</option>
-</select>
-vs
-<select id="strategyB">
-  <option value="coop">Always Cooperate</option>
-  <option value="defect">Always Defect</option>
-  <option value="random">Random</option>
-  <option value="titfortat">Tit for Tat</option>
-</select>
-<br><br>
-<label>Rounds: <input type="number" id="rounds" value="20" min="1" max="200"></label>
-<br><br>
-<button onclick="runSimulation()">Run Simulation</button>
-
-<div id="results"></div>
+<div id="scoreboard"></div>
 
 <script>
-const payoff = {
+let payoff = {
   "CC": [3,3],
   "CD": [0,5],
   "DC": [5,0],
   "DD": [1,1]
 };
 
+let stratA, stratB, totalRounds, currentRound;
+let historyA=[], historyB=[];
+let scoreA=0, scoreB=0;
+let animState = "idle";
+let moveA, moveB;
+let nextRoundTime = 0;
+
 function getMove(strategy, opponentHistory) {
-  if (strategy === "coop") return "C";
-  if (strategy === "defect") return "D";
-  if (strategy === "random") return Math.random()<0.5 ? "C":"D";
-  if (strategy === "titfortat") {
+  if (strategy==="coop") return "C";
+  if (strategy==="defect") return "D";
+  if (strategy==="random") return Math.random()<0.5?"C":"D";
+  if (strategy==="titfortat") {
     if (opponentHistory.length===0) return "C";
     return opponentHistory[opponentHistory.length-1];
   }
 }
 
-function runSimulation() {
-  const stratA = document.getElementById("strategyA").value;
-  const stratB = document.getElementById("strategyB").value;
-  const rounds = parseInt(document.getElementById("rounds").value);
-  
-  let historyA=[], historyB=[];
-  let scoreA=0, scoreB=0;
-  let rows = "<tr><th>Round</th><th>A move</th><th>B move</th><th>A payoff</th><th>B payoff</th></tr>";
-  
-  for (let r=1; r<=rounds; r++) {
-    let moveA = getMove(stratA, historyB);
-    let moveB = getMove(stratB, historyA);
-    historyA.push(moveA);
-    historyB.push(moveB);
-    let [pa,pb] = payoff[moveA+moveB];
-    scoreA+=pa; scoreB+=pb;
-    rows += `<tr><td>${r}</td><td>${moveA}</td><td>${moveB}</td><td>${pa}</td><td>${pb}</td></tr>`;
-  }
-  
-  let table = `<table>${rows}</table>`;
-  let summary = `<p><b>Total Score:</b> Player A = ${scoreA}, Player B = ${scoreB}</p>`;
-  
-  document.getElementById("results").innerHTML = summary+table;
+function startGame() {
+  stratA = document.getElementById("strategyA").value;
+  stratB = document.getElementById("strategyB").value;
+  totalRounds = parseInt(document.getElementById("rounds").value);
+  currentRound = 0;
+  historyA=[]; historyB=[];
+  scoreA=0; scoreB=0;
+  animState = "playing";
+  nextRoundTime = millis();
 }
-</script>
-</body>
-</html>
+
+function setup() {
+  createCanvas(600,400).parent(document.body);
+  textAlign(CENTER,CENTER);
+  textSize(18);
+}
+
+function draw() {
+  background(30);
+
+  // Draw player circles
+  let colA = color(100,150,255);
+  let colB = color(255,120,120);
+
+  if (animState==="flashing") {
+    if (moveA==="C") colA = color(0,200,0);
+    else colA = color(200,0,0);
+    if (moveB==="C") colB = color(0,200,0);
+    else colB = color(200,0,0);
+  }
+
+  fill(colA);
+  ellipse(width/3, height/2, 120,120);
+  fill(0); text("Player A", width/3, height/2);
+
+  fill(colB);
+  ellipse(2*width/3, height/2, 120,120);
+  fill(0); text("Player B", 2*width/3, height/2);
+
+  // Game logic timing
+  if (animState==="playing" && millis() > nextRoundTime) {
+    if (currentRound < totalRounds) {
+      // compute moves
+      moveA = getMove(stratA, historyB);
+      moveB = getMove(stratB, historyA);
+      historyA.push(moveA);
+      historyB.push(moveB);
+      let [pa,pb] = payoff[moveA+moveB];
+      scoreA+=pa; scoreB+=pb;
+      currentRound++;
+      animState="flashing";
+      nextRoundTime = millis()+1000; // 1s flash
+    } else {
+      animState="done";
+    }
+  } else if (animState==="flashing" && millis() > nextRoundTime) {
+    animState="playing";
+    nextRoundTime = millis()+500; // gap before next round
+  }
+
+  // Scoreboard
+  let sb = `<h2>Round ${currentRound} / ${totalRounds}</h2>
