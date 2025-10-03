@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Prisoner's Dilemma Simulation</title>
+<style>
+  body { font-family: Arial, sans-serif; background: #111; color: #eee; text-align: center; }
+  button { margin: 5px; padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer; }
+  #results { margin-top: 20px; }
+  table { margin: auto; border-collapse: collapse; }
+  td, th { border: 1px solid #555; padding: 6px 12px; }
+</style>
+</head>
+<body>
+<h1>Iterated Prisoner's Dilemma</h1>
+<p>Choose strategies for Player A and B, then run the simulation.</p>
+
+<select id="strategyA">
+  <option value="coop">Always Cooperate</option>
+  <option value="defect">Always Defect</option>
+  <option value="random">Random</option>
+  <option value="titfortat">Tit for Tat</option>
+</select>
+vs
+<select id="strategyB">
+  <option value="coop">Always Cooperate</option>
+  <option value="defect">Always Defect</option>
+  <option value="random">Random</option>
+  <option value="titfortat">Tit for Tat</option>
+</select>
+<br><br>
+<label>Rounds: <input type="number" id="rounds" value="20" min="1" max="200"></label>
+<br><br>
+<button onclick="runSimulation()">Run Simulation</button>
+
+<div id="results"></div>
+
+<script>
+const payoff = {
+  "CC": [3,3],
+  "CD": [0,5],
+  "DC": [5,0],
+  "DD": [1,1]
+};
+
+function getMove(strategy, opponentHistory) {
+  if (strategy === "coop") return "C";
+  if (strategy === "defect") return "D";
+  if (strategy === "random") return Math.random()<0.5 ? "C":"D";
+  if (strategy === "titfortat") {
+    if (opponentHistory.length===0) return "C";
+    return opponentHistory[opponentHistory.length-1];
+  }
+}
+
+function runSimulation() {
+  const stratA = document.getElementById("strategyA").value;
+  const stratB = document.getElementById("strategyB").value;
+  const rounds = parseInt(document.getElementById("rounds").value);
+  
+  let historyA=[], historyB=[];
+  let scoreA=0, scoreB=0;
+  let rows = "<tr><th>Round</th><th>A move</th><th>B move</th><th>A payoff</th><th>B payoff</th></tr>";
+  
+  for (let r=1; r<=rounds; r++) {
+    let moveA = getMove(stratA, historyB);
+    let moveB = getMove(stratB, historyA);
+    historyA.push(moveA);
+    historyB.push(moveB);
+    let [pa,pb] = payoff[moveA+moveB];
+    scoreA+=pa; scoreB+=pb;
+    rows += `<tr><td>${r}</td><td>${moveA}</td><td>${moveB}</td><td>${pa}</td><td>${pb}</td></tr>`;
+  }
+  
+  let table = `<table>${rows}</table>`;
+  let summary = `<p><b>Total Score:</b> Player A = ${scoreA}, Player B = ${scoreB}</p>`;
+  
+  document.getElementById("results").innerHTML = summary+table;
+}
+</script>
+</body>
+</html>
