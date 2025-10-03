@@ -1,124 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Prisoner's Dilemma - Animated</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
-<style>
-  body { margin:0; background:#111; color:#eee; font-family:Arial, sans-serif; text-align:center; }
-  #controls { padding: 10px; }
-  select, input, button { margin: 5px; padding: 6px 12px; border-radius: 6px; border:none; }
-  button { cursor:pointer; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prisoner's Dilemma Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(120deg, #74ebd5, #9face6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    .game-container {
+      text-align: center;
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0px 8px 20px rgba(0,0,0,0.2);
+      width: 400px;
+      animation: floatUp 1.2s ease;
+    }
+
+    @keyframes floatUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    button {
+      margin: 10px;
+      padding: 15px 25px;
+      border: none;
+      border-radius: 12px;
+      background: #6a11cb;
+      background: linear-gradient(45deg, #6a11cb, #2575fc);
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+      background: linear-gradient(45deg, #2575fc, #6a11cb);
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 18px;
+      min-height: 60px;
+      opacity: 0;
+      animation: fadeIn 0.8s forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    #startBtn {
+      display: none;
+      margin-top: 20px;
+      background: linear-gradient(45deg, #00c6ff, #0072ff);
+    }
+  </style>
 </head>
 <body>
-<h1>🤝 Prisoner's Dilemma</h1>
-<div id="controls">
-  <select id="strategyA">
-    <option value="coop">Always Cooperate</option>
-    <option value="defect">Always Defect</option>
-    <option value="random">Random</option>
-    <option value="titfortat">Tit for Tat</option>
-  </select>
-  vs
-  <select id="strategyB">
-    <option value="coop">Always Cooperate</option>
-    <option value="defect">Always Defect</option>
-    <option value="random">Random</option>
-    <option value="titfortat">Tit for Tat</option>
-  </select>
-  <br>
-  <label>Rounds: <input type="number" id="rounds" value="10" min="1" max="200"></label>
-  <br>
-  <button onclick="startGame()">▶ Start Game</button>
-</div>
+  <div class="game-container">
+    <h2>Prisoner's Dilemma 🎲</h2>
+    <p>Choose your strategy:</p>
+    <button onclick="playGame('Cooperate')">🤝 Cooperate</button>
+    <button onclick="playGame('Defect')">💔 Defect</button>
 
-<div id="scoreboard"></div>
+    <div class="result" id="result"></div>
+    <button id="startBtn" onclick="resetGame()">🔄 Start Game Again</button>
+  </div>
 
-<script>
-let payoff = {
-  "CC": [3,3],
-  "CD": [0,5],
-  "DC": [5,0],
-  "DD": [1,1]
-};
+  <script>
+    function playGame(playerChoice) {
+      const choices = ["Cooperate", "Defect"];
+      const computerChoice = choices[Math.floor(Math.random() * choices.length)];
 
-let stratA, stratB, totalRounds, currentRound;
-let historyA=[], historyB=[];
-let scoreA=0, scoreB=0;
-let animState = "idle";
-let moveA, moveB;
-let nextRoundTime = 0;
+      let resultText = `You chose <b>${playerChoice}</b>.<br>Computer chose <b>${computerChoice}</b>.<br>`;
+      
+      if (playerChoice === "Cooperate" && computerChoice === "Cooperate") {
+        resultText += "😊 Both cooperate: You both get <b>2 years</b>.";
+      } else if (playerChoice === "Cooperate" && computerChoice === "Defect") {
+        resultText += "😢 You get <b>5 years</b>, Computer goes free!";
+      } else if (playerChoice === "Defect" && computerChoice === "Cooperate") {
+        resultText += "😎 You go free, Computer gets <b>5 years</b>.";
+      } else {
+        resultText += "😡 Both defect: You both get <b>4 years</b>.";
+      }
 
-function getMove(strategy, opponentHistory) {
-  if (strategy==="coop") return "C";
-  if (strategy==="defect") return "D";
-  if (strategy==="random") return Math.random()<0.5?"C":"D";
-  if (strategy==="titfortat") {
-    if (opponentHistory.length===0) return "C";
-    return opponentHistory[opponentHistory.length-1];
-  }
-}
-
-function startGame() {
-  stratA = document.getElementById("strategyA").value;
-  stratB = document.getElementById("strategyB").value;
-  totalRounds = parseInt(document.getElementById("rounds").value);
-  currentRound = 0;
-  historyA=[]; historyB=[];
-  scoreA=0; scoreB=0;
-  animState = "playing";
-  nextRoundTime = millis();
-}
-
-function setup() {
-  createCanvas(600,400).parent(document.body);
-  textAlign(CENTER,CENTER);
-  textSize(18);
-}
-
-function draw() {
-  background(30);
-
-  // Draw player circles
-  let colA = color(100,150,255);
-  let colB = color(255,120,120);
-
-  if (animState==="flashing") {
-    if (moveA==="C") colA = color(0,200,0);
-    else colA = color(200,0,0);
-    if (moveB==="C") colB = color(0,200,0);
-    else colB = color(200,0,0);
-  }
-
-  fill(colA);
-  ellipse(width/3, height/2, 120,120);
-  fill(0); text("Player A", width/3, height/2);
-
-  fill(colB);
-  ellipse(2*width/3, height/2, 120,120);
-  fill(0); text("Player B", 2*width/3, height/2);
-
-  // Game logic timing
-  if (animState==="playing" && millis() > nextRoundTime) {
-    if (currentRound < totalRounds) {
-      // compute moves
-      moveA = getMove(stratA, historyB);
-      moveB = getMove(stratB, historyA);
-      historyA.push(moveA);
-      historyB.push(moveB);
-      let [pa,pb] = payoff[moveA+moveB];
-      scoreA+=pa; scoreB+=pb;
-      currentRound++;
-      animState="flashing";
-      nextRoundTime = millis()+1000; // 1s flash
-    } else {
-      animState="done";
-    }
-  } else if (animState==="flashing" && millis() > nextRoundTime) {
-    animState="playing";
-    nextRoundTime = millis()+500; // gap before next round
-  }
-
-  // Scoreboard
-  let sb = `<h2>Round ${currentRound} / ${totalRounds}</h2>
+      const resultDiv = document.getElementById("result");
+      resultDiv.innerHTML = res
