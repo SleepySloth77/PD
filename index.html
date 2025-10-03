@@ -1,134 +1,224 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Prisoner's Dilemma Game</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(120deg, #74ebd5, #9face6);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      overflow: hidden;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prisoner's Dilemma Simulation with Graph</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(120deg, #74ebd5, #9face6);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 20px;
+    margin: 0;
+  }
 
-    .game-container {
-      text-align: center;
-      background: white;
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0px 8px 20px rgba(0,0,0,0.2);
-      width: 420px;
-      animation: floatUp 1.2s ease;
-    }
+  .game-container {
+    text-align: center;
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0px 8px 20px rgba(0,0,0,0.2);
+    width: 600px;
+  }
 
-    @keyframes floatUp {
-      from { opacity: 0; transform: translateY(40px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+  select, input, button {
+    margin: 10px;
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
 
-    button {
-      margin: 10px;
-      padding: 15px 25px;
-      border: none;
-      border-radius: 12px;
-      background: #6a11cb;
-      background: linear-gradient(45deg, #6a11cb, #2575fc);
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-      transition: transform 0.2s, background 0.3s;
-    }
+  button {
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
 
-    button:hover {
-      transform: scale(1.1);
-      background: linear-gradient(45deg, #2575fc, #6a11cb);
-    }
+  button:hover {
+    transform: scale(1.05);
+    background: linear-gradient(45deg, #2575fc, #6a11cb);
+  }
 
-    .result {
-      margin-top: 20px;
-      font-size: 18px;
-      min-height: 60px;
-    }
+  table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+  }
 
-    .scoreboard {
-      margin-top: 20px;
-      font-size: 18px;
-      padding: 10px;
-      background: #f3f3f3;
-      border-radius: 10px;
-    }
+  table, th, td {
+    border: 1px solid #ccc;
+  }
 
-    #choiceBtns {
-      display: none; /* hidden at start */
-    }
+  th, td {
+    padding: 8px;
+    text-align: center;
+  }
 
-    #startBtn {
-      margin-top: 20px;
-      background: linear-gradient(45deg, #00c6ff, #0072ff);
-    }
-  </style>
+  .scoreboard {
+    margin-top: 15px;
+    padding: 10px;
+    background: #f3f3f3;
+    border-radius: 10px;
+  }
+
+  canvas {
+    margin-top: 25px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    padding: 10px;
+  }
+</style>
 </head>
 <body>
-  <div class="game-container">
-    <h2>Prisoner's Dilemma 🎲</h2>
+<div class="game-container">
+  <h2>Prisoner's Dilemma Simulation 🤝💔</h2>
 
-    <div id="choiceBtns">
-      <p>Choose your strategy:</p>
-      <button onclick="playGame('Cooperate')">🤝 Cooperate</button>
-      <button onclick="playGame('Defect')">💔 Defect</button>
-    </div>
-
-    <div class="result" id="result"></div>
-
-    <div class="scoreboard" id="scoreboard">
-      <b>Scoreboard:</b><br>
-      You: 0 years<br>
-      Computer: 0 years
-    </div>
-
-    <button id="startBtn" onclick="startGame()">▶️ Start Game</button>
+  <div>
+    <label>Player A Strategy: </label>
+    <select id="strategyA">
+      <option>Always Cooperate</option>
+      <option>Always Defect</option>
+      <option>Random</option>
+      <option>Tit-for-Tat</option>
+    </select>
   </div>
 
-  <script>
-    let playerYears = 0;
-    let computerYears = 0;
+  <div>
+    <label>Player B Strategy: </label>
+    <select id="strategyB">
+      <option>Always Cooperate</option>
+      <option>Always Defect</option>
+      <option>Random</option>
+      <option>Tit-for-Tat</option>
+    </select>
+  </div>
 
-    function startGame() {
-      document.getElementById("choiceBtns").style.display = "block";
-      document.getElementById("result").innerHTML = "";
-      document.getElementById("startBtn").style.display = "none";
-    }
+  <div>
+    <label>Number of Rounds: </label>
+    <input type="number" id="rounds" value="10" min="1" max="100">
+  </div>
 
-    function playGame(playerChoice) {
-      const choices = ["Cooperate", "Defect"];
-      const computerChoice = choices[Math.floor(Math.random() * choices.length)];
+  <button onclick="runSimulation()">▶️ Run Simulation</button>
 
-      let resultText = `You chose <b>${playerChoice}</b>.<br>Computer chose <b>${computerChoice}</b>.<br>`;
-      let playerPenalty = 0;
-      let computerPenalty = 0;
-      
-      if (playerChoice === "Cooperate" && computerChoice === "Cooperate") {
-        resultText += "😊 Both cooperate: You both get <b>2 years</b>.";
-        playerPenalty = 2; computerPenalty = 2;
-      } else if (playerChoice === "Cooperate" && computerChoice === "Defect") {
-        resultText += "😢 You get <b>5 years</b>, Computer goes free!";
-        playerPenalty = 5; computerPenalty = 0;
-      } else if (playerChoice === "Defect" && computerChoice === "Cooperate") {
-        resultText += "😎 You go free, Computer gets <b>5 years</b>.";
-        playerPenalty = 0; computerPenalty = 5;
+  <table id="resultsTable">
+    <thead>
+      <tr>
+        <th>Round</th>
+        <th>Player A</th>
+        <th>Player B</th>
+        <th>Outcome</th>
+        <th>A Years</th>
+        <th>B Years</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <div class="scoreboard" id="scoreboard">
+    Total Years → Player A: 0 | Player B: 0
+  </div>
+
+  <canvas id="chart" height="200"></canvas>
+</div>
+
+<script>
+  let chart;
+
+  function chooseMove(strategy, lastOpponentMove) {
+    if (strategy === "Always Cooperate") return "Cooperate";
+    if (strategy === "Always Defect") return "Defect";
+    if (strategy === "Random") return Math.random() < 0.5 ? "Cooperate" : "Defect";
+    if (strategy === "Tit-for-Tat") return lastOpponentMove || "Cooperate";
+  }
+
+  function runSimulation() {
+    const strategyA = document.getElementById("strategyA").value;
+    const strategyB = document.getElementById("strategyB").value;
+    const rounds = parseInt(document.getElementById("rounds").value);
+
+    let totalA = 0;
+    let totalB = 0;
+    let lastA = null, lastB = null;
+
+    const tbody = document.querySelector("#resultsTable tbody");
+    tbody.innerHTML = ""; // clear old results
+
+    let labels = [];
+    let dataA = [];
+    let dataB = [];
+
+    for (let r = 1; r <= rounds; r++) {
+      let moveA = chooseMove(strategyA, lastB);
+      let moveB = chooseMove(strategyB, lastA);
+
+      let yearsA = 0, yearsB = 0, outcome = "";
+
+      if (moveA === "Cooperate" && moveB === "Cooperate") {
+        yearsA = yearsB = 2;
+        outcome = "Both Cooperate";
+      } else if (moveA === "Cooperate" && moveB === "Defect") {
+        yearsA = 5; yearsB = 0;
+        outcome = "A betrayed";
+      } else if (moveA === "Defect" && moveB === "Cooperate") {
+        yearsA = 0; yearsB = 5;
+        outcome = "B betrayed";
       } else {
-        resultText += "😡 Both defect: You both get <b>4 years</b>.";
-        playerPenalty = 4; computerPenalty = 4;
+        yearsA = yearsB = 4;
+        outcome = "Both Defect";
       }
 
-      // Update totals
-      playerYears += playerPenalty;
-      computerYears += computerPenalty;
+      totalA += yearsA;
+      totalB += yearsB;
 
-      // Show round result
-      document.getElementById("result").innerHTML = resultTex
+      lastA = moveA;
+      lastB = moveB;
+
+      const row = `<tr>
+        <td>${r}</td>
+        <td>${moveA}</td>
+        <td>${moveB}</td>
+        <td>${outcome}</td>
+        <td>${yearsA}</td>
+        <td>${yearsB}</td>
+      </tr>`;
+      tbody.innerHTML += row;
+
+      labels.push(r);
+      dataA.push(totalA);
+      dataB.push(totalB);
+    }
+
+    document.getElementById("scoreboard").innerHTML = 
+      `Total Years → Player A: ${totalA} | Player B: ${totalB}`;
+
+    // Render chart
+    if(chart) chart.destroy();
+    const ctx = document.getElementById('chart').getContext('2d');
+    chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [
+          { label: 'Player A', data: dataA, borderColor: 'blue', fill: false, tension: 0.2 },
+          { label: 'Player B', data: dataB, borderColor: 'red', fill: false, tension: 0.2 }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { position: 'top' } },
+        scales: {
+          y: { title: { display: true, text: 'Cumulative Years' }, beginAtZero: true },
+          x: { title: { display: true, text: 'Round' } }
+        }
+      }
+    });
+  }
+</script>
+</body>
+</html>
