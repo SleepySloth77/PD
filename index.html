@@ -22,7 +22,7 @@
       padding: 30px;
       border-radius: 20px;
       box-shadow: 0px 8px 20px rgba(0,0,0,0.2);
-      width: 400px;
+      width: 420px;
       animation: floatUp 1.2s ease;
     }
 
@@ -53,13 +53,14 @@
       margin-top: 20px;
       font-size: 18px;
       min-height: 60px;
-      opacity: 0;
-      animation: fadeIn 0.8s forwards;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    .scoreboard {
+      margin-top: 20px;
+      font-size: 18px;
+      padding: 10px;
+      background: #f3f3f3;
+      border-radius: 10px;
     }
 
     #choiceBtns {
@@ -75,6 +76,7 @@
 <body>
   <div class="game-container">
     <h2>Prisoner's Dilemma 🎲</h2>
+
     <div id="choiceBtns">
       <p>Choose your strategy:</p>
       <button onclick="playGame('Cooperate')">🤝 Cooperate</button>
@@ -82,14 +84,23 @@
     </div>
 
     <div class="result" id="result"></div>
+
+    <div class="scoreboard" id="scoreboard">
+      <b>Scoreboard:</b><br>
+      You: 0 years<br>
+      Computer: 0 years
+    </div>
+
     <button id="startBtn" onclick="startGame()">▶️ Start Game</button>
   </div>
 
   <script>
+    let playerYears = 0;
+    let computerYears = 0;
+
     function startGame() {
       document.getElementById("choiceBtns").style.display = "block";
       document.getElementById("result").innerHTML = "";
-      document.getElementById("result").style.opacity = "0";
       document.getElementById("startBtn").style.display = "none";
     }
 
@@ -98,26 +109,26 @@
       const computerChoice = choices[Math.floor(Math.random() * choices.length)];
 
       let resultText = `You chose <b>${playerChoice}</b>.<br>Computer chose <b>${computerChoice}</b>.<br>`;
+      let playerPenalty = 0;
+      let computerPenalty = 0;
       
       if (playerChoice === "Cooperate" && computerChoice === "Cooperate") {
         resultText += "😊 Both cooperate: You both get <b>2 years</b>.";
+        playerPenalty = 2; computerPenalty = 2;
       } else if (playerChoice === "Cooperate" && computerChoice === "Defect") {
         resultText += "😢 You get <b>5 years</b>, Computer goes free!";
+        playerPenalty = 5; computerPenalty = 0;
       } else if (playerChoice === "Defect" && computerChoice === "Cooperate") {
         resultText += "😎 You go free, Computer gets <b>5 years</b>.";
+        playerPenalty = 0; computerPenalty = 5;
       } else {
         resultText += "😡 Both defect: You both get <b>4 years</b>.";
+        playerPenalty = 4; computerPenalty = 4;
       }
 
-      const resultDiv = document.getElementById("result");
-      resultDiv.innerHTML = resultText;
-      resultDiv.style.opacity = "1";
+      // Update totals
+      playerYears += playerPenalty;
+      computerYears += computerPenalty;
 
-      // Hide choice buttons, show start button again
-      document.getElementById("choiceBtns").style.display = "none";
-      document.getElementById("startBtn").innerText = "🔄 Play Again";
-      document.getElementById("startBtn").style.display = "inline-block";
-    }
-  </script>
-</body>
-</html>
+      // Show round result
+      document.getElementById("result").innerHTML = resultTex
