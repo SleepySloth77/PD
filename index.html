@@ -62,8 +62,11 @@
       to { opacity: 1; }
     }
 
+    #choiceBtns {
+      display: none; /* hidden at start */
+    }
+
     #startBtn {
-      display: none;
       margin-top: 20px;
       background: linear-gradient(45deg, #00c6ff, #0072ff);
     }
@@ -72,15 +75,24 @@
 <body>
   <div class="game-container">
     <h2>Prisoner's Dilemma 🎲</h2>
-    <p>Choose your strategy:</p>
-    <button onclick="playGame('Cooperate')">🤝 Cooperate</button>
-    <button onclick="playGame('Defect')">💔 Defect</button>
+    <div id="choiceBtns">
+      <p>Choose your strategy:</p>
+      <button onclick="playGame('Cooperate')">🤝 Cooperate</button>
+      <button onclick="playGame('Defect')">💔 Defect</button>
+    </div>
 
     <div class="result" id="result"></div>
-    <button id="startBtn" onclick="resetGame()">🔄 Start Game Again</button>
+    <button id="startBtn" onclick="startGame()">▶️ Start Game</button>
   </div>
 
   <script>
+    function startGame() {
+      document.getElementById("choiceBtns").style.display = "block";
+      document.getElementById("result").innerHTML = "";
+      document.getElementById("result").style.opacity = "0";
+      document.getElementById("startBtn").style.display = "none";
+    }
+
     function playGame(playerChoice) {
       const choices = ["Cooperate", "Defect"];
       const computerChoice = choices[Math.floor(Math.random() * choices.length)];
@@ -98,4 +110,14 @@
       }
 
       const resultDiv = document.getElementById("result");
-      resultDiv.innerHTML = res
+      resultDiv.innerHTML = resultText;
+      resultDiv.style.opacity = "1";
+
+      // Hide choice buttons, show start button again
+      document.getElementById("choiceBtns").style.display = "none";
+      document.getElementById("startBtn").innerText = "🔄 Play Again";
+      document.getElementById("startBtn").style.display = "inline-block";
+    }
+  </script>
+</body>
+</html>
