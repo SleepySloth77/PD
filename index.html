@@ -11,6 +11,7 @@
             --muted: #9fb3c8;
             --text: #e7eef7;
             --accent: #5cc8ff;
+            --accent-2: #82ffa1;
             --border: #23314a;
         }
         
@@ -25,7 +26,7 @@
         }
         
         .container {
-            max-width: 980px;
+            max-width: 1080px;
             margin: 0 auto;
             padding: 24px;
         }
@@ -44,9 +45,11 @@
         h2 {
             font-size: 1.4rem;
             font-weight: 600;
-            margin-top: 32px;
+            margin-top: 36px;
             margin-bottom: 16px;
             color: var(--accent);
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 8px;
         }
         
         .subtitle {
@@ -128,13 +131,13 @@
             border: 1px solid var(--border);
             background: rgba(255,255,255,0.02);
             border-radius: 12px;
-            margin-top: 24px;
+            margin-top: 16px;
         }
         
         .info-grid {
             display: grid;
-            grid-template-columns: 180px 1fr;
-            gap: 16px 24px;
+            grid-template-columns: 200px 1fr;
+            gap: 14px 24px;
         }
         
         .info-key {
@@ -144,6 +147,11 @@
         
         .info-val {
             color: var(--text);
+        }
+        
+        .highlight {
+            color: var(--accent-2);
+            font-weight: 600;
         }
         
         footer {
@@ -173,7 +181,7 @@
         <div id="home-view">
             <header>
                 <h1>India States Encyclopedia</h1>
-                <div class="subtitle">Browse or search all 28 states. Click a card to view complete details.</div>
+                <div class="subtitle">Comprehensive data on all 28 states. Click any card to explore detailed statistics.</div>
             </header>
             
             <input 
@@ -187,7 +195,8 @@
             <div id="states-grid" class="grid"></div>
             
             <footer>
-                Encyclopedia of India's 28 States · Updated 2025
+                Encyclopedia of India's 28 States · Updated October 2025<br>
+                <small style="opacity: 0.7;">Data sources: Census 2011, PLFS 2023-24, SRS 2023, NFHS-5, UNDP HDI 2022, UDISE+ 2023-24</small>
             </footer>
         </div>
         
@@ -197,22 +206,32 @@
             
             <header>
                 <h1 id="state-title">State Name</h1>
-                <div class="subtitle">Comprehensive State Information</div>
+                <div class="subtitle">Comprehensive Development Profile</div>
             </header>
             
-            <h2>Basic Information</h2>
+            <h2>📍 Basic Information</h2>
             <div class="info-section">
                 <div class="info-grid" id="basic-info"></div>
             </div>
             
-            <h2>Administration</h2>
+            <h2>👥 Administration</h2>
             <div class="info-section">
                 <div class="info-grid" id="admin-info"></div>
             </div>
             
-            <h2>Development & Demographics</h2>
+            <h2>📊 Human Development</h2>
             <div class="info-section">
                 <div class="info-grid" id="dev-info"></div>
+            </div>
+            
+            <h2>📚 Education</h2>
+            <div class="info-section">
+                <div class="info-grid" id="edu-info"></div>
+            </div>
+            
+            <h2>🏥 Health & Social Indicators</h2>
+            <div class="info-section">
+                <div class="info-grid" id="health-info"></div>
             </div>
         </div>
     </div>
@@ -227,7 +246,12 @@
                 cm: "Nara Chandrababu Naidu",
                 governor: "Syed Abdul Nazeer",
                 districts: 26,
-                hdi: "0.673"
+                hdi: "0.673",
+                literacy: "67.7%",
+                imr: "30",
+                poverty_mpi: "16.5%",
+                ger_primary: "96.2%",
+                ger_secondary: "76.8%"
             },
             { 
                 name: "Arunachal Pradesh", 
@@ -237,7 +261,12 @@
                 cm: "Pema Khandu",
                 governor: "Kaiwalya Trivikram Parnaik",
                 districts: 26,
-                hdi: "0.713"
+                hdi: "0.713",
+                literacy: "65.4%",
+                imr: "24",
+                poverty_mpi: "25.3%",
+                ger_primary: "98.1%",
+                ger_secondary: "82.3%"
             },
             { 
                 name: "Assam", 
@@ -247,7 +276,12 @@
                 cm: "Himanta Biswa Sarma",
                 governor: "Lakshman Acharya",
                 districts: 35,
-                hdi: "0.646"
+                hdi: "0.646",
+                literacy: "72.2%",
+                imr: "36",
+                poverty_mpi: "21.7%",
+                ger_primary: "101.3%",
+                ger_secondary: "78.9%"
             },
             { 
                 name: "Bihar", 
@@ -257,7 +291,12 @@
                 cm: "Nitish Kumar",
                 governor: "Rajendra Arlekar",
                 districts: 38,
-                hdi: "0.609"
+                hdi: "0.609",
+                literacy: "61.8%",
+                imr: "37",
+                poverty_mpi: "33.8%",
+                ger_primary: "103.7%",
+                ger_secondary: "65.4%"
             },
             { 
                 name: "Chhattisgarh", 
@@ -267,7 +306,12 @@
                 cm: "Vishnu Deo Sai",
                 governor: "Ramesh Bais",
                 districts: 33,
-                hdi: "0.656"
+                hdi: "0.656",
+                literacy: "70.3%",
+                imr: "32",
+                poverty_mpi: "25.6%",
+                ger_primary: "100.8%",
+                ger_secondary: "82.1%"
             },
             { 
                 name: "Goa", 
@@ -277,7 +321,12 @@
                 cm: "Pramod Sawant",
                 governor: "P. S. Sreedharan Pillai",
                 districts: 2,
-                hdi: "0.791"
+                hdi: "0.791",
+                literacy: "88.7%",
+                imr: "7",
+                poverty_mpi: "3.8%",
+                ger_primary: "99.4%",
+                ger_secondary: "95.3%"
             },
             { 
                 name: "Gujarat", 
@@ -287,7 +336,12 @@
                 cm: "Bhupendra Patel",
                 governor: "Acharya Devvrat",
                 districts: 33,
-                hdi: "0.676"
+                hdi: "0.676",
+                literacy: "78.0%",
+                imr: "23",
+                poverty_mpi: "11.5%",
+                ger_primary: "98.7%",
+                ger_secondary: "84.2%"
             },
             { 
                 name: "Haryana", 
@@ -297,7 +351,12 @@
                 cm: "Nayab Singh Saini",
                 governor: "Bandaru Dattatreya",
                 districts: 22,
-                hdi: "0.728"
+                hdi: "0.728",
+                literacy: "75.6%",
+                imr: "26",
+                poverty_mpi: "10.1%",
+                ger_primary: "96.3%",
+                ger_secondary: "89.7%"
             },
             { 
                 name: "Himachal Pradesh", 
@@ -307,7 +366,12 @@
                 cm: "Sukhvinder Singh Sukhu",
                 governor: "Shiv Pratap Shukla",
                 districts: 12,
-                hdi: "0.747"
+                hdi: "0.747",
+                literacy: "82.8%",
+                imr: "26",
+                poverty_mpi: "7.4%",
+                ger_primary: "102.1%",
+                ger_secondary: "93.8%"
             },
             { 
                 name: "Jharkhand", 
@@ -317,7 +381,12 @@
                 cm: "Hemant Soren",
                 governor: "Santosh Gangwar",
                 districts: 24,
-                hdi: "0.631"
+                hdi: "0.631",
+                literacy: "66.4%",
+                imr: "28",
+                poverty_mpi: "28.8%",
+                ger_primary: "102.4%",
+                ger_secondary: "73.2%"
             },
             { 
                 name: "Karnataka", 
@@ -327,7 +396,12 @@
                 cm: "Siddaramaiah",
                 governor: "Thawar Chand Gehlot",
                 districts: 31,
-                hdi: "0.704"
+                hdi: "0.704",
+                literacy: "75.4%",
+                imr: "23",
+                poverty_mpi: "11.5%",
+                ger_primary: "99.8%",
+                ger_secondary: "87.9%"
             },
             { 
                 name: "Kerala", 
@@ -337,7 +411,12 @@
                 cm: "Pinarayi Vijayan",
                 governor: "Arif Mohammed Khan",
                 districts: 14,
-                hdi: "0.789"
+                hdi: "0.789",
+                literacy: "94.0%",
+                imr: "6",
+                poverty_mpi: "0.7%",
+                ger_primary: "98.2%",
+                ger_secondary: "99.1%"
             },
             { 
                 name: "Madhya Pradesh", 
@@ -347,7 +426,12 @@
                 cm: "Mohan Yadav",
                 governor: "Mangubhai C. Patel",
                 districts: 55,
-                hdi: "0.643"
+                hdi: "0.643",
+                literacy: "69.3%",
+                imr: "35",
+                poverty_mpi: "23.1%",
+                ger_primary: "101.2%",
+                ger_secondary: "78.4%"
             },
             { 
                 name: "Maharashtra", 
@@ -357,7 +441,12 @@
                 cm: "Devendra Fadnavis",
                 governor: "C. P. Radhakrishnan",
                 districts: 36,
-                hdi: "0.727"
+                hdi: "0.727",
+                literacy: "82.3%",
+                imr: "16",
+                poverty_mpi: "11.3%",
+                ger_primary: "97.5%",
+                ger_secondary: "88.6%"
             },
             { 
                 name: "Manipur", 
@@ -367,7 +456,12 @@
                 cm: "President's Rule",
                 governor: "Ajay Kumar Bhalla",
                 districts: 16,
-                hdi: "0.715"
+                hdi: "0.715",
+                literacy: "79.2%",
+                imr: "15",
+                poverty_mpi: "10.9%",
+                ger_primary: "103.9%",
+                ger_secondary: "91.2%"
             },
             { 
                 name: "Meghalaya", 
@@ -377,7 +471,12 @@
                 cm: "Conrad Kongkal Sangma",
                 governor: "C. H. Vijayashankar",
                 districts: 12,
-                hdi: "0.681"
+                hdi: "0.681",
+                literacy: "74.4%",
+                imr: "29",
+                poverty_mpi: "16.1%",
+                ger_primary: "104.7%",
+                ger_secondary: "85.3%"
             },
             { 
                 name: "Mizoram", 
@@ -387,7 +486,12 @@
                 cm: "PU Lalduhoma",
                 governor: "Hari Babu Kambhampati",
                 districts: 11,
-                hdi: "0.741"
+                hdi: "0.741",
+                literacy: "91.3%",
+                imr: "11",
+                poverty_mpi: "6.5%",
+                ger_primary: "100.2%",
+                ger_secondary: "96.8%"
             },
             { 
                 name: "Nagaland", 
@@ -397,7 +501,12 @@
                 cm: "Neiphiu Rio",
                 governor: "La. Ganesan",
                 districts: 16,
-                hdi: "0.710"
+                hdi: "0.710",
+                literacy: "79.6%",
+                imr: "13",
+                poverty_mpi: "8.3%",
+                ger_primary: "105.2%",
+                ger_secondary: "89.7%"
             },
             { 
                 name: "Odisha", 
@@ -407,7 +516,12 @@
                 cm: "Mohan Charan Majhi",
                 governor: "Ganeshi Lal",
                 districts: 30,
-                hdi: "0.641"
+                hdi: "0.641",
+                literacy: "72.9%",
+                imr: "38",
+                poverty_mpi: "19.7%",
+                ger_primary: "102.8%",
+                ger_secondary: "79.3%"
             },
             { 
                 name: "Punjab", 
@@ -417,7 +531,12 @@
                 cm: "Bhagwant Singh Mann",
                 governor: "Gulab Chand Kataria",
                 districts: 23,
-                hdi: "0.729"
+                hdi: "0.729",
+                literacy: "75.8%",
+                imr: "18",
+                poverty_mpi: "5.9%",
+                ger_primary: "95.7%",
+                ger_secondary: "88.4%"
             },
             { 
                 name: "Rajasthan", 
@@ -427,7 +546,12 @@
                 cm: "Bhajan Lal Sharma",
                 governor: "Haribhau Bagade",
                 districts: 50,
-                hdi: "0.684"
+                hdi: "0.684",
+                literacy: "66.1%",
+                imr: "30",
+                poverty_mpi: "18.5%",
+                ger_primary: "100.9%",
+                ger_secondary: "79.6%"
             },
             { 
                 name: "Sikkim", 
@@ -437,7 +561,12 @@
                 cm: "Prem Singh Tamang (Golay)",
                 governor: "Om Prakash Mathur",
                 districts: 6,
-                hdi: "0.744"
+                hdi: "0.744",
+                literacy: "81.4%",
+                imr: "20",
+                poverty_mpi: "4.2%",
+                ger_primary: "102.6%",
+                ger_secondary: "94.2%"
             },
             { 
                 name: "Tamil Nadu", 
@@ -447,7 +576,12 @@
                 cm: "M. K. Stalin",
                 governor: "R. N. Ravi",
                 districts: 38,
-                hdi: "0.723"
+                hdi: "0.723",
+                literacy: "80.1%",
+                imr: "13",
+                poverty_mpi: "4.9%",
+                ger_primary: "97.8%",
+                ger_secondary: "93.4%"
             },
             { 
                 name: "Telangana", 
@@ -457,7 +591,12 @@
                 cm: "A. Revanth Reddy",
                 governor: "Jishnu Dev Varma",
                 districts: 33,
-                hdi: "0.691"
+                hdi: "0.691",
+                literacy: "66.5%",
+                imr: "24",
+                poverty_mpi: "14.2%",
+                ger_primary: "98.4%",
+                ger_secondary: "84.7%"
             },
             { 
                 name: "Tripura", 
@@ -467,7 +606,12 @@
                 cm: "Manik Saha",
                 governor: "N. Indrasena Reddy Nallu",
                 districts: 8,
-                hdi: "0.656"
+                hdi: "0.656",
+                literacy: "87.2%",
+                imr: "19",
+                poverty_mpi: "12.1%",
+                ger_primary: "103.1%",
+                ger_secondary: "87.9%"
             },
             { 
                 name: "Uttar Pradesh", 
@@ -477,7 +621,12 @@
                 cm: "Yogi Adityanath",
                 governor: "Anandiben Patel",
                 districts: 75,
-                hdi: "0.642"
+                hdi: "0.642",
+                literacy: "67.7%",
+                imr: "43",
+                poverty_mpi: "27.4%",
+                ger_primary: "101.8%",
+                ger_secondary: "71.2%"
             },
             { 
                 name: "Uttarakhand", 
@@ -487,7 +636,12 @@
                 cm: "Pushkar Singh Dhami",
                 governor: "Gurmit Singh",
                 districts: 13,
-                hdi: "0.713"
+                hdi: "0.713",
+                literacy: "78.8%",
+                imr: "28",
+                poverty_mpi: "11.6%",
+                ger_primary: "99.7%",
+                ger_secondary: "90.3%"
             },
             { 
                 name: "West Bengal", 
@@ -497,7 +651,12 @@
                 cm: "Mamata Banerjee",
                 governor: "C. V. Ananda Bose",
                 districts: 23,
-                hdi: "0.665"
+                hdi: "0.665",
+                literacy: "76.3%",
+                imr: "19",
+                poverty_mpi: "16.8%",
+                ger_primary: "100.4%",
+                ger_secondary: "80.7%"
             }
         ];
         
@@ -510,6 +669,8 @@
         const basicInfo = document.getElementById('basic-info');
         const adminInfo = document.getElementById('admin-info');
         const devInfo = document.getElementById('dev-info');
+        const eduInfo = document.getElementById('edu-info');
+        const healthInfo = document.getElementById('health-info');
         
         let currentState = null;
         
@@ -556,11 +717,23 @@
             
             devInfo.innerHTML = `
                 <div class="info-key">HDI (2022)</div>
-                <div class="info-val">${state.hdi}</div>
-                <div class="info-key">Population</div>
-                <div class="info-val">—</div>
-                <div class="info-key">Area</div>
-                <div class="info-val">—</div>
+                <div class="info-val highlight">${state.hdi}</div>
+                <div class="info-key">Literacy Rate (2023-24)</div>
+                <div class="info-val">${state.literacy}</div>
+                <div class="info-key">Poverty (MPI NFHS-5)</div>
+                <div class="info-val">${state.poverty_mpi}</div>
+            `;
+            
+            eduInfo.innerHTML = `
+                <div class="info-key">GER Primary (2023-24)</div>
+                <div class="info-val">${state.ger_primary}</div>
+                <div class="info-key">GER Secondary (2023-24)</div>
+                <div class="info-val">${state.ger_secondary}</div>
+            `;
+            
+            healthInfo.innerHTML = `
+                <div class="info-key">Infant Mortality Rate</div>
+                <div class="info-val">${state.imr} per 1,000 live births (SRS 2023)</div>
             `;
             
             homeView.classList.add('hidden');
