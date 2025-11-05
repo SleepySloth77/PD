@@ -1,774 +1,266 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>India States Encyclopedia</title>
-    <style>
-        :root {
-            --bg: #0b1220;
-            --panel: #121a2b;
-            --muted: #9fb3c8;
-            --text: #e7eef7;
-            --accent: #5cc8ff;
-            --accent-2: #82ffa1;
-            --border: #23314a;
-        }
-        
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        
-        body {
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
-            background: radial-gradient(1200px 800px at 10% 0%, #0e1830, #0b1220), var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            min-height: 100vh;
-        }
-        
-        .container {
-            max-width: 1080px;
-            margin: 0 auto;
-            padding: 24px;
-        }
-        
-        header {
-            margin-bottom: 32px;
-        }
-        
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            margin-bottom: 8px;
-        }
-        
-        h2 {
-            font-size: 1.4rem;
-            font-weight: 600;
-            margin-top: 36px;
-            margin-bottom: 16px;
-            color: var(--accent);
-            border-bottom: 2px solid var(--border);
-            padding-bottom: 8px;
-        }
-        
-        .subtitle {
-            color: var(--muted);
-            font-size: 1rem;
-        }
-        
-        .back-link {
-            display: inline-block;
-            color: var(--accent);
-            text-decoration: none;
-            margin-bottom: 24px;
-            font-size: 1rem;
-            transition: transform 0.2s;
-        }
-        
-        .back-link:hover {
-            transform: translateX(-4px);
-            text-decoration: underline;
-        }
-        
-        .search-box {
-            width: 100%;
-            padding: 14px 18px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            background: var(--panel);
-            color: var(--text);
-            font-size: 1rem;
-            outline: none;
-            margin-bottom: 24px;
-            transition: border-color 0.2s;
-        }
-        
-        .search-box:focus {
-            border-color: var(--accent);
-        }
-        
-        .search-box::placeholder {
-            color: var(--muted);
-        }
-        
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 16px;
-            margin-bottom: 32px;
-        }
-        
-        .card {
-            padding: 20px;
-            border: 1px solid var(--border);
-            background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0));
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        
-        .card:hover {
-            transform: translateY(-3px);
-            border-color: rgba(92, 200, 255, 0.5);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-        }
-        
-        .card-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 6px;
-            color: var(--text);
-        }
-        
-        .card-meta {
-            color: var(--muted);
-            font-size: 0.9rem;
-        }
-        
-        .info-section {
-            padding: 24px;
-            border: 1px solid var(--border);
-            background: rgba(255,255,255,0.02);
-            border-radius: 12px;
-            margin-top: 16px;
-        }
-        
-        .info-grid {
-            display: grid;
-            grid-template-columns: 200px 1fr;
-            gap: 14px 24px;
-        }
-        
-        .info-key {
-            color: var(--muted);
-            font-weight: 500;
-        }
-        
-        .info-val {
-            color: var(--text);
-        }
-        
-        .highlight {
-            color: var(--accent-2);
-            font-weight: 600;
-        }
-        
-        footer {
-            margin-top: 48px;
-            padding-top: 24px;
-            border-top: 1px solid var(--border);
-            color: var(--muted);
-            font-size: 0.9rem;
-            text-align: center;
-        }
-        
-        .hidden {
-            display: none;
-        }
-        
-        @media (max-width: 640px) {
-            h1 { font-size: 2rem; }
-            .grid { grid-template-columns: 1fr; }
-            .info-grid { grid-template-columns: 1fr; gap: 8px; }
-            .info-key { font-weight: 600; }
-        }
-    </style>
+<meta charset="utf-8" />
+<title>Multi-color Boundary Defense Simulation (Frontline Lock)</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<style>
+  body{margin:0;height:100vh;display:flex;gap:18px;background:#071827;color:#e6eef6;font-family:Inter,system-ui;padding:18px}
+  .panel{width:380px;background:#0f1720;padding:14px;border-radius:12px;box-shadow:0 8px 30px rgba(2,6,23,.6)}
+  label{font-size:12px;color:#9aa3b2;display:block;margin-top:8px}
+  input[type=range], select{width:100%}
+  button{background:#15324a;border:none;color:#e6eef6;padding:8px 10px;border-radius:8px;cursor:pointer;margin-right:6px}
+  button.secondary{background:#0b2a3a}
+  #world{background:#08131b;display:block;border-radius:8px}
+  .small{font-size:12px;color:#9aa3b2}
+</style>
 </head>
 <body>
-    <div class="container">
-        <!-- Home View -->
-        <div id="home-view">
-            <header>
-                <h1>India States Encyclopedia</h1>
-                <div class="subtitle">Comprehensive data on all 28 states. Click any card to explore detailed statistics.</div>
-            </header>
-            
-            <input 
-                type="search" 
-                id="search-input" 
-                class="search-box" 
-                placeholder="Search by state or capital..."
-                autocomplete="off"
-            />
-            
-            <div id="states-grid" class="grid"></div>
-            
-            <footer>
-                Encyclopedia of India's 28 States · Updated October 2025<br>
-                <small style="opacity: 0.7;">Data sources: Census 2011, PLFS 2023-24, SRS 2023, NFHS-5, UNDP HDI 2022, UDISE+ 2023-24</small>
-            </footer>
-        </div>
-        
-        <!-- State Detail View -->
-        <div id="state-view" class="hidden">
-            <a href="#" id="back-btn" class="back-link">← Back to all states</a>
-            
-            <header>
-                <h1 id="state-title">State Name</h1>
-                <div class="subtitle">Comprehensive Development Profile</div>
-            </header>
-            
-            <h2>📍 Basic Information</h2>
-            <div class="info-section">
-                <div class="info-grid" id="basic-info"></div>
-            </div>
-            
-            <h2>👥 Administration</h2>
-            <div class="info-section">
-                <div class="info-grid" id="admin-info"></div>
-            </div>
-            
-            <h2>📊 Human Development</h2>
-            <div class="info-section">
-                <div class="info-grid" id="dev-info"></div>
-            </div>
-            
-            <h2>📚 Education</h2>
-            <div class="info-section">
-                <div class="info-grid" id="edu-info"></div>
-            </div>
-            
-            <h2>🏥 Health & Social Indicators</h2>
-            <div class="info-section">
-                <div class="info-grid" id="health-info"></div>
-            </div>
-        </div>
+  <div class="panel">
+    <h1>Multi-color Boundary Defense (Frontline Lock)</h1>
+
+    <label>Grid size: <span id="sizeLbl">100</span></label>
+    <input id="sizeRange" type="range" min="20" max="200" value="100">
+
+    <label>Base reproduction probability</label>
+    <input id="reproProb" type="range" min="0" max="0.2" step="0.005" value="0.02">
+    <div id="reproProbVal">0.02</div>
+
+    <label>Contest sharpness</label>
+    <input id="sharpness" type="range" min="0.1" max="5" step="0.1" value="1">
+    <div id="sharpVal">1</div>
+
+    <label>Star side</label>
+    <select id="starSide">
+      <option value="left">Left</option>
+      <option value="right">Right</option>
+      <option value="top">Top</option>
+      <option value="bottom">Bottom</option>
+    </select>
+
+    <label>Star attraction multiplier</label>
+    <input id="starBias" type="range" min="1" max="5" step="0.1" value="2">
+    <div id="starBiasVal">2</div>
+
+    <label>Frontline freeze depth (layers behind boundary locked)</label>
+    <input id="freezeDepth" type="range" min="1" max="5" step="1" value="2">
+    <div class="small">Depth: <strong id="freezeVal">2</strong></div>
+
+    <label>Power Scores</label>
+    <div class="small">Green <input id="p0" type="range" min="0" max="100" value="50"> <span id="p0v">50</span></div>
+    <div class="small">Blue  <input id="p1" type="range" min="0" max="100" value="45"> <span id="p1v">45</span></div>
+    <div class="small">Yellow<input id="p2" type="range" min="0" max="100" value="40"> <span id="p2v">40</span></div>
+    <div class="small">Red   <input id="p3" type="range" min="0" max="100" value="55"> <span id="p3v">55</span></div>
+    <div class="small">Pink  <input id="p4" type="range" min="0" max="100" value="30"> <span id="p4v">30</span></div>
+
+    <label>Initial Counts</label>
+    <div class="small">Green <input id="c0" type="range" min="1" max="500" value="100"> <span id="c0v">100</span></div>
+    <div class="small">Blue  <input id="c1" type="range" min="1" max="500" value="100"> <span id="c1v">100</span></div>
+    <div class="small">Yellow<input id="c2" type="range" min="1" max="500" value="100"> <span id="c2v">100</span></div>
+    <div class="small">Red   <input id="c3" type="range" min="1" max="500" value="100"> <span id="c3v">100</span></div>
+    <div class="small">Pink  <input id="c4" type="range" min="1" max="500" value="100"> <span id="c4v">100</span></div>
+
+    <div style="margin-top:10px">
+      <button id="startBtn">Start</button>
+      <button id="stopBtn" class="secondary">Stop</button>
+      <button id="randomBtn" class="secondary">Seed Clusters</button>
+      <button id="clearBtn" class="secondary">Clear</button>
     </div>
-    
-    <script>
-        const STATES = [
-            { 
-                name: "Andhra Pradesh", 
-                capital: "Amaravati", 
-                formation: "1 Nov 1956",
-                languages: "Telugu, English",
-                cm: "Nara Chandrababu Naidu",
-                governor: "Syed Abdul Nazeer",
-                districts: 26,
-                hdi: "0.673",
-                literacy: "67.7%",
-                imr: "30",
-                poverty_mpi: "16.5%",
-                ger_primary: "96.2%",
-                ger_secondary: "76.8%"
-            },
-            { 
-                name: "Arunachal Pradesh", 
-                capital: "Itanagar", 
-                formation: "20 Feb 1987",
-                languages: "English",
-                cm: "Pema Khandu",
-                governor: "Kaiwalya Trivikram Parnaik",
-                districts: 26,
-                hdi: "0.713",
-                literacy: "65.4%",
-                imr: "24",
-                poverty_mpi: "25.3%",
-                ger_primary: "98.1%",
-                ger_secondary: "82.3%"
-            },
-            { 
-                name: "Assam", 
-                capital: "Dispur", 
-                formation: "1950",
-                languages: "Assamese, Bengali, Bodo",
-                cm: "Himanta Biswa Sarma",
-                governor: "Lakshman Acharya",
-                districts: 35,
-                hdi: "0.646",
-                literacy: "72.2%",
-                imr: "36",
-                poverty_mpi: "21.7%",
-                ger_primary: "101.3%",
-                ger_secondary: "78.9%"
-            },
-            { 
-                name: "Bihar", 
-                capital: "Patna", 
-                formation: "1950",
-                languages: "Hindi, Urdu",
-                cm: "Nitish Kumar",
-                governor: "Rajendra Arlekar",
-                districts: 38,
-                hdi: "0.609",
-                literacy: "61.8%",
-                imr: "37",
-                poverty_mpi: "33.8%",
-                ger_primary: "103.7%",
-                ger_secondary: "65.4%"
-            },
-            { 
-                name: "Chhattisgarh", 
-                capital: "Raipur", 
-                formation: "1 Nov 2000",
-                languages: "Hindi, Chhattisgarhi",
-                cm: "Vishnu Deo Sai",
-                governor: "Ramesh Bais",
-                districts: 33,
-                hdi: "0.656",
-                literacy: "70.3%",
-                imr: "32",
-                poverty_mpi: "25.6%",
-                ger_primary: "100.8%",
-                ger_secondary: "82.1%"
-            },
-            { 
-                name: "Goa", 
-                capital: "Panaji", 
-                formation: "30 May 1987",
-                languages: "Konkani, English, Marathi",
-                cm: "Pramod Sawant",
-                governor: "P. S. Sreedharan Pillai",
-                districts: 2,
-                hdi: "0.791",
-                literacy: "88.7%",
-                imr: "7",
-                poverty_mpi: "3.8%",
-                ger_primary: "99.4%",
-                ger_secondary: "95.3%"
-            },
-            { 
-                name: "Gujarat", 
-                capital: "Gandhinagar", 
-                formation: "1 May 1960",
-                languages: "Gujarati, Hindi",
-                cm: "Bhupendra Patel",
-                governor: "Acharya Devvrat",
-                districts: 33,
-                hdi: "0.676",
-                literacy: "78.0%",
-                imr: "23",
-                poverty_mpi: "11.5%",
-                ger_primary: "98.7%",
-                ger_secondary: "84.2%"
-            },
-            { 
-                name: "Haryana", 
-                capital: "Chandigarh", 
-                formation: "1 Nov 1966",
-                languages: "Hindi, English, Punjabi",
-                cm: "Nayab Singh Saini",
-                governor: "Bandaru Dattatreya",
-                districts: 22,
-                hdi: "0.728",
-                literacy: "75.6%",
-                imr: "26",
-                poverty_mpi: "10.1%",
-                ger_primary: "96.3%",
-                ger_secondary: "89.7%"
-            },
-            { 
-                name: "Himachal Pradesh", 
-                capital: "Shimla", 
-                formation: "25 Jan 1971",
-                languages: "Hindi, Sanskrit",
-                cm: "Sukhvinder Singh Sukhu",
-                governor: "Shiv Pratap Shukla",
-                districts: 12,
-                hdi: "0.747",
-                literacy: "82.8%",
-                imr: "26",
-                poverty_mpi: "7.4%",
-                ger_primary: "102.1%",
-                ger_secondary: "93.8%"
-            },
-            { 
-                name: "Jharkhand", 
-                capital: "Ranchi", 
-                formation: "15 Nov 2000",
-                languages: "Hindi (+ 14 regional languages)",
-                cm: "Hemant Soren",
-                governor: "Santosh Gangwar",
-                districts: 24,
-                hdi: "0.631",
-                literacy: "66.4%",
-                imr: "28",
-                poverty_mpi: "28.8%",
-                ger_primary: "102.4%",
-                ger_secondary: "73.2%"
-            },
-            { 
-                name: "Karnataka", 
-                capital: "Bengaluru", 
-                formation: "1 Nov 1956",
-                languages: "Kannada, English",
-                cm: "Siddaramaiah",
-                governor: "Thawar Chand Gehlot",
-                districts: 31,
-                hdi: "0.704",
-                literacy: "75.4%",
-                imr: "23",
-                poverty_mpi: "11.5%",
-                ger_primary: "99.8%",
-                ger_secondary: "87.9%"
-            },
-            { 
-                name: "Kerala", 
-                capital: "Thiruvananthapuram", 
-                formation: "1 Nov 1956",
-                languages: "Malayalam, English",
-                cm: "Pinarayi Vijayan",
-                governor: "Arif Mohammed Khan",
-                districts: 14,
-                hdi: "0.789",
-                literacy: "94.0%",
-                imr: "6",
-                poverty_mpi: "0.7%",
-                ger_primary: "98.2%",
-                ger_secondary: "99.1%"
-            },
-            { 
-                name: "Madhya Pradesh", 
-                capital: "Bhopal", 
-                formation: "1 Nov 1956",
-                languages: "Hindi",
-                cm: "Mohan Yadav",
-                governor: "Mangubhai C. Patel",
-                districts: 55,
-                hdi: "0.643",
-                literacy: "69.3%",
-                imr: "35",
-                poverty_mpi: "23.1%",
-                ger_primary: "101.2%",
-                ger_secondary: "78.4%"
-            },
-            { 
-                name: "Maharashtra", 
-                capital: "Mumbai", 
-                formation: "1 May 1960",
-                languages: "Marathi",
-                cm: "Devendra Fadnavis",
-                governor: "C. P. Radhakrishnan",
-                districts: 36,
-                hdi: "0.727",
-                literacy: "82.3%",
-                imr: "16",
-                poverty_mpi: "11.3%",
-                ger_primary: "97.5%",
-                ger_secondary: "88.6%"
-            },
-            { 
-                name: "Manipur", 
-                capital: "Imphal", 
-                formation: "21 Jan 1972",
-                languages: "Manipuri, English",
-                cm: "President's Rule",
-                governor: "Ajay Kumar Bhalla",
-                districts: 16,
-                hdi: "0.715",
-                literacy: "79.2%",
-                imr: "15",
-                poverty_mpi: "10.9%",
-                ger_primary: "103.9%",
-                ger_secondary: "91.2%"
-            },
-            { 
-                name: "Meghalaya", 
-                capital: "Shillong", 
-                formation: "21 Jan 1972",
-                languages: "English, Khasi, Garo",
-                cm: "Conrad Kongkal Sangma",
-                governor: "C. H. Vijayashankar",
-                districts: 12,
-                hdi: "0.681",
-                literacy: "74.4%",
-                imr: "29",
-                poverty_mpi: "16.1%",
-                ger_primary: "104.7%",
-                ger_secondary: "85.3%"
-            },
-            { 
-                name: "Mizoram", 
-                capital: "Aizawl", 
-                formation: "20 Feb 1987",
-                languages: "Mizo, English, Hindi",
-                cm: "PU Lalduhoma",
-                governor: "Hari Babu Kambhampati",
-                districts: 11,
-                hdi: "0.741",
-                literacy: "91.3%",
-                imr: "11",
-                poverty_mpi: "6.5%",
-                ger_primary: "100.2%",
-                ger_secondary: "96.8%"
-            },
-            { 
-                name: "Nagaland", 
-                capital: "Kohima", 
-                formation: "1 Dec 1963",
-                languages: "English",
-                cm: "Neiphiu Rio",
-                governor: "La. Ganesan",
-                districts: 16,
-                hdi: "0.710",
-                literacy: "79.6%",
-                imr: "13",
-                poverty_mpi: "8.3%",
-                ger_primary: "105.2%",
-                ger_secondary: "89.7%"
-            },
-            { 
-                name: "Odisha", 
-                capital: "Bhubaneswar", 
-                formation: "1950",
-                languages: "Odia",
-                cm: "Mohan Charan Majhi",
-                governor: "Ganeshi Lal",
-                districts: 30,
-                hdi: "0.641",
-                literacy: "72.9%",
-                imr: "38",
-                poverty_mpi: "19.7%",
-                ger_primary: "102.8%",
-                ger_secondary: "79.3%"
-            },
-            { 
-                name: "Punjab", 
-                capital: "Chandigarh", 
-                formation: "1 Nov 1966",
-                languages: "Punjabi",
-                cm: "Bhagwant Singh Mann",
-                governor: "Gulab Chand Kataria",
-                districts: 23,
-                hdi: "0.729",
-                literacy: "75.8%",
-                imr: "18",
-                poverty_mpi: "5.9%",
-                ger_primary: "95.7%",
-                ger_secondary: "88.4%"
-            },
-            { 
-                name: "Rajasthan", 
-                capital: "Jaipur", 
-                formation: "30 Mar 1949",
-                languages: "Hindi",
-                cm: "Bhajan Lal Sharma",
-                governor: "Haribhau Bagade",
-                districts: 50,
-                hdi: "0.684",
-                literacy: "66.1%",
-                imr: "30",
-                poverty_mpi: "18.5%",
-                ger_primary: "100.9%",
-                ger_secondary: "79.6%"
-            },
-            { 
-                name: "Sikkim", 
-                capital: "Gangtok", 
-                formation: "16 May 1975",
-                languages: "English, Nepali, Sikkimese, Lepcha",
-                cm: "Prem Singh Tamang (Golay)",
-                governor: "Om Prakash Mathur",
-                districts: 6,
-                hdi: "0.744",
-                literacy: "81.4%",
-                imr: "20",
-                poverty_mpi: "4.2%",
-                ger_primary: "102.6%",
-                ger_secondary: "94.2%"
-            },
-            { 
-                name: "Tamil Nadu", 
-                capital: "Chennai", 
-                formation: "1 Nov 1956",
-                languages: "Tamil, English",
-                cm: "M. K. Stalin",
-                governor: "R. N. Ravi",
-                districts: 38,
-                hdi: "0.723",
-                literacy: "80.1%",
-                imr: "13",
-                poverty_mpi: "4.9%",
-                ger_primary: "97.8%",
-                ger_secondary: "93.4%"
-            },
-            { 
-                name: "Telangana", 
-                capital: "Hyderabad", 
-                formation: "2 Jun 2014",
-                languages: "Telugu, Urdu",
-                cm: "A. Revanth Reddy",
-                governor: "Jishnu Dev Varma",
-                districts: 33,
-                hdi: "0.691",
-                literacy: "66.5%",
-                imr: "24",
-                poverty_mpi: "14.2%",
-                ger_primary: "98.4%",
-                ger_secondary: "84.7%"
-            },
-            { 
-                name: "Tripura", 
-                capital: "Agartala", 
-                formation: "21 Jan 1972",
-                languages: "Bengali, English, Kokborok",
-                cm: "Manik Saha",
-                governor: "N. Indrasena Reddy Nallu",
-                districts: 8,
-                hdi: "0.656",
-                literacy: "87.2%",
-                imr: "19",
-                poverty_mpi: "12.1%",
-                ger_primary: "103.1%",
-                ger_secondary: "87.9%"
-            },
-            { 
-                name: "Uttar Pradesh", 
-                capital: "Lucknow", 
-                formation: "24 Jan 1950",
-                languages: "Hindi, Urdu",
-                cm: "Yogi Adityanath",
-                governor: "Anandiben Patel",
-                districts: 75,
-                hdi: "0.642",
-                literacy: "67.7%",
-                imr: "43",
-                poverty_mpi: "27.4%",
-                ger_primary: "101.8%",
-                ger_secondary: "71.2%"
-            },
-            { 
-                name: "Uttarakhand", 
-                capital: "Dehradun", 
-                formation: "9 Nov 2000",
-                languages: "Hindi, Sanskrit",
-                cm: "Pushkar Singh Dhami",
-                governor: "Gurmit Singh",
-                districts: 13,
-                hdi: "0.713",
-                literacy: "78.8%",
-                imr: "28",
-                poverty_mpi: "11.6%",
-                ger_primary: "99.7%",
-                ger_secondary: "90.3%"
-            },
-            { 
-                name: "West Bengal", 
-                capital: "Kolkata", 
-                formation: "1950",
-                languages: "Bengali, English (+ 10 additional)",
-                cm: "Mamata Banerjee",
-                governor: "C. V. Ananda Bose",
-                districts: 23,
-                hdi: "0.665",
-                literacy: "76.3%",
-                imr: "19",
-                poverty_mpi: "16.8%",
-                ger_primary: "100.4%",
-                ger_secondary: "80.7%"
+
+    <div id="tickDisp" style="margin-top:10px;font-size:12px;color:#9aa3b2">Tick: 0</div>
+    <div class="small" style="margin-top:8px">Tip: locked frontline zones glow faintly. Click canvas to cycle occupants on a cell.</div>
+  </div>
+
+  <canvas id="world" width="700" height="700"></canvas>
+
+<script>
+(() => {
+  const colors = [null,'#2ecc71','#2ea3ff','#f6e05e','#ff6b6b','#ff7ab6'];
+  let cols=100, rows=100, cellSize=7;
+  let grid=[], tick=0, running=false, interval=null;
+  const canvas=document.getElementById('world'), ctx=canvas.getContext('2d');
+
+  const sizeRange=document.getElementById('sizeRange'), sizeLbl=document.getElementById('sizeLbl');
+  const reproProb=document.getElementById('reproProb'), reproProbVal=document.getElementById('reproProbVal');
+  const sharpness=document.getElementById('sharpness'), sharpVal=document.getElementById('sharpVal');
+  const starSide=document.getElementById('starSide');
+  const starBias=document.getElementById('starBias'), starBiasVal=document.getElementById('starBiasVal');
+  const freezeDepth=document.getElementById('freezeDepth'), freezeVal=document.getElementById('freezeVal');
+
+  function resizeGrid(n){ cols=n; rows=n; cellSize = Math.max(1, Math.floor(700/n)); canvas.width = cellSize*cols; canvas.height = cellSize*rows; initGrid(); }
+  function initGrid(){ grid = new Array(rows).fill(0).map(()=>new Array(cols).fill(0)); tick=0; draw(); }
+
+  function clusterSpawn(){
+    initGrid();
+    const centers=[
+      [Math.floor(cols*0.15),Math.floor(rows*0.15)],
+      [Math.floor(cols*0.85),Math.floor(rows*0.15)],
+      [Math.floor(cols*0.15),Math.floor(rows*0.85)],
+      [Math.floor(cols*0.85),Math.floor(rows*0.85)],
+      [Math.floor(cols*0.5),Math.floor(rows*0.5)]
+    ];
+
+    const counts = [
+      parseInt(document.getElementById('c0').value),
+      parseInt(document.getElementById('c1').value),
+      parseInt(document.getElementById('c2').value),
+      parseInt(document.getElementById('c3').value),
+      parseInt(document.getElementById('c4').value)
+    ];
+
+    for(let s=1;s<=5;s++){
+      const [cx,cy] = centers[s-1];
+      let placed = 0;
+      while(placed < counts[s-1]){
+        const x = cx + Math.floor(Math.random()*11 - 5);
+        const y = cy + Math.floor(Math.random()*11 - 5);
+        if(x>=0 && y>=0 && x<cols && y<rows && grid[y][x]===0){
+          grid[y][x] = s;
+          placed++;
+        }
+      }
+    }
+
+    draw();
+  }
+
+  function clearGrid(){ initGrid(); }
+
+  function draw(){ ctx.clearRect(0,0,canvas.width,canvas.height);
+    const side = starSide.value; ctx.fillStyle = 'rgba(255,255,255,0.04)';
+    if(side==='left') ctx.fillRect(0,0,canvas.width*0.15,canvas.height);
+    if(side==='right') ctx.fillRect(canvas.width*0.85,0,canvas.width*0.15,canvas.height);
+    if(side==='top') ctx.fillRect(0,0,canvas.width,canvas.height*0.15);
+    if(side==='bottom') ctx.fillRect(0,canvas.height*0.85,canvas.width,canvas.height*0.15);
+
+    for(let y=0;y<rows;y++){
+      for(let x=0;x<cols;x++){
+        const v = grid[y][x];
+        if(v){ ctx.fillStyle = colors[v]; ctx.fillRect(x*cellSize, y*cellSize, cellSize, cellSize); }
+      }
+    }
+
+    if(lastLocked && lastLocked.size>0){ ctx.fillStyle = 'rgba(255,255,255,0.06)';
+      lastLocked.forEach(k=>{ const [x,y] = k.split(',').map(Number); ctx.fillRect(x*cellSize, y*cellSize, cellSize, cellSize); });
+      ctx.strokeStyle = 'rgba(255,255,255,0.18)'; ctx.lineWidth = Math.max(1, cellSize*0.08);
+      lastBoundary.forEach(k=>{ const [x,y] = k.split(',').map(Number); ctx.strokeRect(x*cellSize+0.5, y*cellSize+0.5, cellSize-1, cellSize-1); });
+    }
+  }
+
+  function inBounds(x,y){ return x>=0 && y>=0 && x<cols && y<rows; }
+
+  function computeBoundariesAndLocks(depth){
+    const boundary = new Set();
+    for(let y=0;y<rows;y++){
+      for(let x=0;x<cols;x++){
+        const v = grid[y][x];
+        if(!v) continue;
+        const dirs=[[1,0],[-1,0],[0,1],[0,-1]];
+        for(const [dx,dy] of dirs){
+          const nx=x+dx, ny=y+dy; if(!inBounds(nx,ny)) continue; const o=grid[ny][nx];
+          if(o && o!==v){ boundary.add(`${x},${y}`); break; }
+        }
+      }
+    }
+
+    const locked = new Set();
+    const visited = new Set();
+    const q = [];
+    boundary.forEach(k=>{ const parts=k.split(',').map(Number); q.push({x:parts[0], y:parts[1], d:0}); visited.add(k); locked.add(k); });
+
+    while(q.length){ const cur = q.shift(); if(cur.d >= depth) continue; const v = grid[cur.y][cur.x];
+      const dirs=[[1,0],[-1,0],[0,1],[0,-1]];
+      for(const [dx,dy] of dirs){ const nx=cur.x+dx, ny=cur.y+dy; if(!inBounds(nx,ny)) continue; const key = `${nx},${ny}`;
+        if(visited.has(key)) continue; if(grid[ny][nx]===v){ visited.add(key); locked.add(key); q.push({x:nx,y:ny,d:cur.d+1}); }
+      }
+    }
+
+    return {boundary, locked};
+  }
+
+  let lastLocked = new Set();
+  let lastBoundary = new Set();
+
+  function step(){
+    const newGrid = grid.map(r=>r.slice());
+    const baseProb = parseFloat(reproProb.value);
+    const powers = [0, ...Array(5)].map((_,i)=> i>0 ? parseFloat(document.getElementById('p'+(i-1)).value) : 0 );
+    const avgPower = (powers.slice(1).reduce((a,b)=>a+b,0) / 5);
+    const sharp = parseFloat(sharpness.value);
+    const bias = parseFloat(starBias.value);
+    const depth = parseInt(freezeDepth.value,10);
+
+    const {boundary, locked} = computeBoundariesAndLocks(depth);
+    lastLocked = locked; lastBoundary = boundary;
+
+    const processedPairs = new Set();
+    boundary.forEach(k => {
+      const [x,y] = k.split(',').map(Number);
+      const v = grid[y][x];
+      const dirs=[[1,0],[-1,0],[0,1],[0,-1]];
+      for(const [dx,dy] of dirs){
+        const nx=x+dx, ny=y+dy; if(!inBounds(nx,ny)) continue; const o = grid[ny][nx];
+        if(!o || o===v) continue; 
+        const pairKey = (x<nx || (x===nx && y<ny)) ? `${x},${y}-${nx},${ny}` : `${nx},${ny}-${x},${y}`;
+        if(processedPairs.has(pairKey)) continue; 
+        const pv = powers[v]; const po = powers[o];
+        const win = 1 / (1 + Math.exp(-sharp*(pv-po)/20));
+        if(Math.random() < win){ newGrid[ny][nx] = v; }
+        else { newGrid[y][x] = o; }
+        processedPairs.add(pairKey);
+      }
+    });
+
+    const spawns = [];
+    for(let y=0;y<rows;y++){
+      for(let x=0;x<cols;x++){
+        const v = grid[y][x]; if(!v) continue;
+        const key = `${x},${y}`;
+        if(locked.has(key)) continue;
+
+        let prob = baseProb;
+        const dirs = [[1,0],[-1,0],[0,1],[0,-1]];
+        for(const [dx,dy] of dirs){
+          const nx = x+dx, ny = y+dy; if(!inBounds(nx,ny)) continue; if(grid[ny][nx] !== 0) continue;
+          let dirProb = prob;
+          if(powers[v] > avgPower){
+            if((starSide.value==='left' && dx<0) || (starSide.value==='right' && dx>0) || (starSide.value==='top' && dy<0) || (starSide.value==='bottom' && dy>0)){
+              dirProb *= bias;
             }
-        ];
-        
-        const homeView = document.getElementById('home-view');
-        const stateView = document.getElementById('state-view');
-        const searchInput = document.getElementById('search-input');
-        const statesGrid = document.getElementById('states-grid');
-        const backBtn = document.getElementById('back-btn');
-        const stateTitle = document.getElementById('state-title');
-        const basicInfo = document.getElementById('basic-info');
-        const adminInfo = document.getElementById('admin-info');
-        const devInfo = document.getElementById('dev-info');
-        const eduInfo = document.getElementById('edu-info');
-        const healthInfo = document.getElementById('health-info');
-        
-        let currentState = null;
-        
-        function normalize(str) {
-            return str.toLowerCase().normalize("NFKD");
+          }
+          if(Math.random() < dirProb) spawns.push([nx,ny,v]);
         }
-        
-        function renderStates(states) {
-            statesGrid.innerHTML = '';
-            states.forEach(state => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.innerHTML = `
-                    <div class="card-title">${state.name}</div>
-                    <div class="card-meta">Capital: ${state.capital}</div>
-                `;
-                card.addEventListener('click', () => showState(state));
-                statesGrid.appendChild(card);
-            });
-        }
-        
-        function showState(state) {
-            currentState = state;
-            document.title = state.name;
-            stateTitle.textContent = state.name;
-            
-            basicInfo.innerHTML = `
-                <div class="info-key">Capital</div>
-                <div class="info-val">${state.capital}</div>
-                <div class="info-key">Formation Date</div>
-                <div class="info-val">${state.formation}</div>
-                <div class="info-key">Official Languages</div>
-                <div class="info-val">${state.languages}</div>
-                <div class="info-key">Number of Districts</div>
-                <div class="info-val">${state.districts}</div>
-            `;
-            
-            adminInfo.innerHTML = `
-                <div class="info-key">Chief Minister</div>
-                <div class="info-val">${state.cm}</div>
-                <div class="info-key">Governor</div>
-                <div class="info-val">${state.governor}</div>
-            `;
-            
-            devInfo.innerHTML = `
-                <div class="info-key">HDI (2022)</div>
-                <div class="info-val highlight">${state.hdi}</div>
-                <div class="info-key">Literacy Rate (2023-24)</div>
-                <div class="info-val">${state.literacy}</div>
-                <div class="info-key">Poverty (MPI NFHS-5)</div>
-                <div class="info-val">${state.poverty_mpi}</div>
-            `;
-            
-            eduInfo.innerHTML = `
-                <div class="info-key">GER Primary (2023-24)</div>
-                <div class="info-val">${state.ger_primary}</div>
-                <div class="info-key">GER Secondary (2023-24)</div>
-                <div class="info-val">${state.ger_secondary}</div>
-            `;
-            
-            healthInfo.innerHTML = `
-                <div class="info-key">Infant Mortality Rate</div>
-                <div class="info-val">${state.imr} per 1,000 live births (SRS 2023)</div>
-            `;
-            
-            homeView.classList.add('hidden');
-            stateView.classList.remove('hidden');
-            window.scrollTo(0, 0);
-        }
-        
-        function showHome() {
-            document.title = 'India States Encyclopedia';
-            homeView.classList.remove('hidden');
-            stateView.classList.add('hidden');
-            currentState = null;
-            window.scrollTo(0, 0);
-        }
-        
-        searchInput.addEventListener('input', (e) => {
-            const query = normalize(e.target.value.trim());
-            if (query === '') {
-                renderStates(STATES);
-            } else {
-                const filtered = STATES.filter(state => 
-                    normalize(state.name).includes(query) || 
-                    normalize(state.capital).includes(query)
-                );
-                renderStates(filtered);
-            }
-        });
-        
-        backBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            showHome();
-        });
-        
-        // Initial render
-        renderStates(STATES);
-    </script>
+      }
+    }
+    for(const [x,y,v] of spawns){ if(newGrid[y][x] === 0) newGrid[y][x] = v; }
+
+    grid = newGrid; tick++; document.getElementById('tickDisp').textContent = 'Tick: ' + tick; draw();
+  }
+
+  document.getElementById('startBtn').onclick = ()=>{ if(!running){ running = true; interval = setInterval(step, 120); }};
+  document.getElementById('stopBtn').onclick = ()=>{ if(running){ running = false; clearInterval(interval); interval = null;} };
+  document.getElementById('randomBtn').onclick = clusterSpawn;
+  document.getElementById('clearBtn').onclick = clearGrid;
+
+  sizeRange.oninput = e=>{ sizeLbl.textContent = e.target.value; };
+  sizeRange.onchange = e=> resizeGrid(parseInt(e.target.value,10));
+  reproProb.oninput = e=>{ reproProbVal.textContent = e.target.value; };
+  sharpness.oninput = e=>{ sharpVal.textContent = e.target.value; };
+  starBias.oninput = e=>{ starBiasVal.textContent = e.target.value; };
+  freezeDepth.oninput = e=>{ freezeVal.textContent = e.target.value; };
+  for(let i=0;i<5;i++){
+    document.getElementById('p'+i).oninput = e => document.getElementById('p'+i+'v').textContent = e.target.value;
+    document.getElementById('c'+i).oninput = e => document.getElementById('c'+i+'v').textContent = e.target.value;
+  }
+
+  canvas.addEventListener('click', (ev)=>{
+    const rect = canvas.getBoundingClientRect(); const cx = Math.floor((ev.clientX - rect.left) / cellSize); const cy = Math.floor((ev.clientY - rect.top) / cellSize);
+    if(!inBounds(cx,cy)) return; grid[cy][cx] = (grid[cy][cx] + 1) % 6; draw();
+  });
+
+  resizeGrid(100); clusterSpawn();
+
+})();
+</script>
 </body>
 </html>
